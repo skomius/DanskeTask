@@ -35,19 +35,19 @@ namespace ConsoleApp2
 
                         stream.Write(data, 0, data.Length);
 
-                        Console.WriteLine("Sent: {0}", request);
+                        Console.WriteLine($"Sent: {request}");
 
                         data = new Byte[2048];
                         String responseData = String.Empty;
 
                         Int32 bytes = stream.Read(data, 0, data.Length);
                         responseData = Encoding.ASCII.GetString(data, 0, bytes);
-                        Console.WriteLine("Received: {0}", responseData);
+                        Console.WriteLine( $"Received: {responseData}");
                     }
                 }
                 catch (ArgumentNullException e)
                 {
-                    Console.WriteLine("ArgumentNullException: {0}", e);
+                    Console.WriteLine($"ArgumentNullException: {e.Message}");
                 }
                 catch (SocketException e)
                 {

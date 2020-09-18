@@ -7,8 +7,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Linq;
-using CsvHelper;
 using System.Globalization;
+using CsvHelper;
 
 namespace Producer
 {
@@ -27,9 +27,6 @@ namespace Producer
                 Console.WriteLine("client connected");
 
                 NetworkStream stream = client.GetStream();
-
-                Console.WriteLine("test");
-
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     byte[] data = new byte[4096];
@@ -85,7 +82,7 @@ namespace Producer
             {
                 scheduledTax = context.ScheduledTaxes.Where(x => x.Municipality == enumerable.First()
                     && x.From <= date && x.To >= date)
-                    .OrderBy(x => x.From - x.To).SingleOrDefault();
+                    .OrderBy(x => x.To - x.From).SingleOrDefault();
             }
 
             return scheduledTax != null ? 
