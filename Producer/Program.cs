@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -9,19 +10,25 @@ namespace Producer
     {
         static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            using (var serviceScope = host.Services.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ScheduledTaxContext>();
+                context.Database.EnsureCreated();
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .UseWindowsService()
-            //.ConfigureAppConfiguration((hostingContext, config) =>
-            //{
-            //    config.AddJsonFile("./appSettings.json");
-            //})
             .ConfigureServices((hostContext, services) =>
             {
+                services.AddDbContext<ScheduledTaxContext>();
                 services.AddHostedService<Worker>();
             });
+
     }
+    
 }
