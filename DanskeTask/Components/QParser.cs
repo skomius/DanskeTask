@@ -18,6 +18,7 @@ namespace DanskeTask
     {
         public QParser() { }
 
+        //TODO: Implement syntax tree
         public SearchQuery QueryParser(string query)
         {
             IEnumerable<string> fields = Enumerable.Empty<string>();
